@@ -10,25 +10,32 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static org.ricetable.edita.teremArray;
+
 public class customMain extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
+
     public customMain(ArrayList<String> list, Context context) {
         this.list = list;
         this.context = context;
     }
+
     @Override
     public int getCount() {
         return list.size();
     }
+
     @Override
     public Object getItem(int pos) {
         return list.get(pos);
     }
+
     @Override
     public long getItemId(int pos) {
         return 0;
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -36,8 +43,11 @@ public class customMain extends BaseAdapter implements ListAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.custom_main, null);
         }
-        TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
+        final TextView teremView = (TextView) view.findViewById(R.id.teremView);
+        TextView listItemText = (TextView) view.findViewById(R.id.list_item_string);
         listItemText.setText(list.get(position));
+        teremView.setText(teremArray.get(position));
+
         return view;
     }
 }

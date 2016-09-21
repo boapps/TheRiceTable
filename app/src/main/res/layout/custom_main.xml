@@ -14,5 +14,16 @@
         android:paddingLeft="8dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:focusable="false" />
+        android:focusable="false"
+        android:gravity="center_vertical" />
+    <TextView
+        android:id="@+id/teremView"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:paddingLeft="8dp"
+        android:text="terem"
+        android:textSize="18sp"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical" />
+
 </RelativeLayout>

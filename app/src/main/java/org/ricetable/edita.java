@@ -18,23 +18,23 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class edita extends AppCompatActivity {
-    String[] arr = {"Android", "IPhone", "WindowsMobile", "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X"};
-    ListView lve;
-    static customadapter adapter;
     public static ArrayList<String> adapterArray;
     public static ArrayList<String> teremArray;
-    SharedPreferences sharedPref;
     public static SharedPreferences.Editor editor;
     public static String from;
+    static customadapter adapter;
+    ListView lve;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //asda
+//        int boa;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edita);
         Bundle extras = getIntent().getExtras();
@@ -44,8 +44,6 @@ public class edita extends AppCompatActivity {
         } else {
             from = "monday";
         }
-
-
         lve = (ListView) findViewById(R.id.lve);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
@@ -103,7 +101,7 @@ public class edita extends AppCompatActivity {
 
                 System.out.println(adapterArray);
                 editor.putString(from, adapterArray.toString());
-                editor.putString(from+"terem", teremArray.toString());
+                editor.putString(from + "terem", teremArray.toString());
                 editor.commit();
                 refAdap();
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(input.getWindowToken(), 0);
@@ -142,7 +140,7 @@ public class edita extends AppCompatActivity {
                 adapterArray.set(index, input.getText().toString());
                 teremArray.set(index, inputTerem.getText().toString());
                 editor.putString(from, adapterArray.toString());
-                editor.putString(from+"terem", teremArray.toString());
+                editor.putString(from + "terem", teremArray.toString());
                 editor.commit();
                 refAdap();
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(input.getWindowToken(), 0);
