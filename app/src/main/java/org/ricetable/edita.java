@@ -44,6 +44,8 @@ public class edita extends AppCompatActivity {
 //        } else {
 //            from = "monday";
 //        }
+
+        
         lve = (ListView) findViewById(R.id.lve);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
