@@ -49,7 +49,7 @@ public class customadapter extends BaseAdapter implements ListAdapter {
         }
         TextView listItemText = (TextView) view.findViewById(R.id.list_item_string);
         final TextView teremView = (TextView) view.findViewById(R.id.teremView);
-        listItemText.setText(list.get(position));
+        listItemText.setText(position+1 + ". " + list.get(position));
         teremView.setText(teremArray.get(position));
         ImageButton deleteBtn = (ImageButton) view.findViewById(R.id.delete_btn);
 
