@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static org.ricetable.edita.teremArray;
-
 public class customMain extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
@@ -46,7 +44,7 @@ public class customMain extends BaseAdapter implements ListAdapter {
         final TextView teremView = (TextView) view.findViewById(R.id.teremView);
         TextView listItemText = (TextView) view.findViewById(R.id.list_item_string);
         listItemText.setText(position+1 + ". " + list.get(position));
-        teremView.setText(teremArray.get(position));
+        teremView.setText(MainActivity.teremArray.get(position));
 
         return view;
     }

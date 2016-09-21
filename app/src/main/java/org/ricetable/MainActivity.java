@@ -22,10 +22,12 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<String> adapterArray;
+    static ArrayList<String> teremArray;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     String from = "monday";
     ListView lv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,14 @@ public class MainActivity extends AppCompatActivity
         if (sharedPref.getString(from, null) == null) {
             adapterArray.remove(0);
         }
+        replace = sharedPref.getString(from + "terem", "").replace("[", "");
+        replace1 = replace.replace("]", "");
+        teremArray = new ArrayList<String>(Arrays.asList(replace1.split(", ")));
+        if (sharedPref.getString(from + "terem", null) == null) {
+            teremArray.remove(0);
+        }
+        System.out.println(teremArray.toString());
+
         customMain adapter = new customMain(adapterArray, this);
         lv.setAdapter(adapter);
         System.out.println(adapterArray.toString());
