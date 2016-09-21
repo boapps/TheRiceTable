@@ -37,15 +37,15 @@ public class edita extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edita);
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            from = extras.getString("fromK");
-//            System.out.println(from);
-//        } else {
-//            from = "monday";
-//        }
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            from = extras.getString("fromK");
+            System.out.println(from);
+        } else {
+            from = "monday";
+        }
 
-        
+
         lve = (ListView) findViewById(R.id.lve);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
