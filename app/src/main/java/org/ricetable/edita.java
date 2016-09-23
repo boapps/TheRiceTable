@@ -55,11 +55,13 @@ public class edita extends AppCompatActivity {
         if (sharedPref.getString(from + "terem", null) == null) {
             teremArray.remove(0);
         }
-        if (teremArray.get(0).equals("")) {
-            teremArray.remove(0);
-        }
-        if (adapterArray.get(0).equals("")) {
-            adapterArray.remove(0);
+        if (!teremArray.isEmpty()) {
+            if (teremArray.get(0).equals("")) {
+                teremArray.remove(0);
+            }
+            if (adapterArray.get(0).equals("")) {
+                adapterArray.remove(0);
+            }
         }
         System.out.println(teremArray.toString());
         adapter = new customadapter(adapterArray, this);

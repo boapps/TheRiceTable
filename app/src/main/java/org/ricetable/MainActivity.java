@@ -1,11 +1,17 @@
 package org.ricetable;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,7 +34,6 @@ public class MainActivity extends AppCompatActivity
     String from = "monday";
     ListView lv;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lv = (ListView) findViewById(R.id.lv);
+
         loadDay(from);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,18 +116,20 @@ public class MainActivity extends AppCompatActivity
             teremArray.remove(0);
         }
 
-        if (teremArray.get(0).equals("")) {
-            teremArray.remove(0);
+        if (!teremArray.isEmpty()) {
+            if (teremArray.get(0).equals("")) {
+                teremArray.remove(0);
+            }
+            if (adapterArray.get(0).equals("")) {
+                adapterArray.remove(0);
+            }
         }
-        if (adapterArray.get(0).equals("")) {
-            adapterArray.remove(0);
-        }
-
         System.out.println(teremArray.toString());
 
         customMain adapter = new customMain(adapterArray, this);
         lv.setAdapter(adapter);
         System.out.println(adapterArray.toString());
+        notification();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -149,4 +158,52 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void notification() {
+        if (!adapterArray.isEmpty() && sharedPref.getBoolean("notifications_new_message", true)) {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.ic_add_black_24dp)
+                            .setContentTitle(adapterArray.get(0) + " in " + teremArray.get(0))
+                            .setContentText("");
+
+            Intent resultIntent = new Intent(this, MainActivity.class);
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+            stackBuilder.addParentStack(MainActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            mBuilder.setOngoing(true);
+            NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+            String bText = "";
+            for (int n = 0; n != adapterArray.size(); n++) {
+                if (n != adapterArray.size() - 1) {
+                    bText = bText + adapterArray.get(n) + "\n";
+                } else {
+                    bText = bText + adapterArray.get(n);
+                }
+            }
+            bigText.bigText(bText);
+            bigText.setBigContentTitle("Lessons: ");
+            mBuilder.setStyle(bigText);
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(1, mBuilder.build());
+        } else {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancelAll();
+        }
+    }
+
 }
