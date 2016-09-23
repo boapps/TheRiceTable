@@ -47,18 +47,19 @@ public class edita extends AppCompatActivity {
         lve = (ListView) findViewById(R.id.lve);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
-        String replace = sharedPref.getString(from, "").replace("[", "");
-        String replace1 = replace.replace("]", "");
-        adapterArray = new ArrayList<String>(Arrays.asList(replace1.split(", ")));
+        adapterArray = new ArrayList<String>(Arrays.asList(sharedPref.getString(from, "").replace("[", "").replace("]", "").split(", ")));
         if (sharedPref.getString(from, null) == null) {
             adapterArray.remove(0);
         }
-        System.out.println(adapterArray.toString());
-        replace = sharedPref.getString(from + "terem", "").replace("[", "");
-        replace1 = replace.replace("]", "");
-        teremArray = new ArrayList<String>(Arrays.asList(replace1.split(", ")));
+        teremArray = new ArrayList<String>(Arrays.asList(sharedPref.getString(from + "terem", "").replace("[", "").replace("]", "").split(", ")));
         if (sharedPref.getString(from + "terem", null) == null) {
             teremArray.remove(0);
+        }
+        if (teremArray.get(0).equals("")) {
+            teremArray.remove(0);
+        }
+        if (adapterArray.get(0).equals("")) {
+            adapterArray.remove(0);
         }
         System.out.println(teremArray.toString());
         adapter = new customadapter(adapterArray, this);
@@ -96,15 +97,29 @@ public class edita extends AppCompatActivity {
         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                adapterArray.add(String.valueOf(input.getText()));
-                teremArray.add(String.valueOf(inputTerem.getText()));
+                if (input.getText().length() == 0) {
+                    input.setText("-");
+                }
+                if (inputTerem.getText().length() == 0) {
+                    inputTerem.setText("-");
+                }
+                    adapterArray.add(String.valueOf(input.getText()));
+                    teremArray.add(String.valueOf(inputTerem.getText()));
+                    System.out.println(adapterArray);
+                    editor.putString(from, adapterArray.toString());
+                    editor.putString(from + "terem", teremArray.toString());
+                    editor.commit();
+                    refAdap();
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(input.getWindowToken(), 0);
+                adapterArray = new ArrayList<String>(Arrays.asList(sharedPref.getString(from, "").replace("[", "").replace("]", "").split(", ")));
+                if (sharedPref.getString(from, null) == null) {
+                    adapterArray.remove(0);
+                }
+                teremArray = new ArrayList<String>(Arrays.asList(sharedPref.getString(from + "terem", "").replace("[", "").replace("]", "").split(", ")));
+                if (sharedPref.getString(from + "terem", null) == null) {
+                    teremArray.remove(0);
+                }
 
-                System.out.println(adapterArray);
-                editor.putString(from, adapterArray.toString());
-                editor.putString(from + "terem", teremArray.toString());
-                editor.commit();
-                refAdap();
-                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(input.getWindowToken(), 0);
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
