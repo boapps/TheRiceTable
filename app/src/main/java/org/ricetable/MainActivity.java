@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,13 +39,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Bundle extras = getIntent().getExtras();
-//        if (extras == null) {
-//            from = extras.getString("fromK");
-//            System.out.println(from);
-//        } else {
-//            from = "monday";
-//        }
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && getIntent().hasExtra("fromK")) {
+            from = extras.getString("fromK");
+        } else {
+            from = getDayName(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lv = (ListView) findViewById(R.id.lv);
@@ -101,6 +101,27 @@ public class MainActivity extends AppCompatActivity
         } else {
 
         }
+    }
+
+    public static String getDayName(int day){
+        switch(day){
+            case 0:
+                return "sunday";
+            case 1:
+                return "monday";
+            case 2:
+                return "tuesday";
+            case 3:
+                return "wednesday";
+            case 4:
+                return "thursday";
+            case 5:
+                return  "friday";
+            case 6:
+                return "saturday";
+        }
+
+        return "Worng Day";
     }
 
     public void loadDay(String fromD) {
